@@ -1,0 +1,9 @@
+[gd_resource type="ORMMaterial3D" format=3 uid="uid://ciymu1cefhvtj"]
+
+[ext_resource type="Texture2D" uid="uid://bykabjfa43qxt" path="res://addons/Animated_ocean/Ocean_mats/water_seamless.png" id="1_uwqjb"]
+
+[resource]
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_uwqjb")

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dwq85pdikpxps"]
+
+[ext_resource type="Material" uid="uid://dfedlxd0pft33" path="res://addons/Animated_ocean/Ocean_mats/Disp_ocean.tres" id="1_nb2vx"]
+[ext_resource type="Script" uid="uid://beisisxp4v12n" path="res://addons/Animated_ocean/Animated_ocean_license and scripts/ocean.gd" id="2_bwgqs"]
+[ext_resource type="Material" uid="uid://bjxrg5w0eu6ss" path="res://addons/Animated_ocean/Swiggly_to _Ocean/Under_water.tres" id="3_ihpsq"]
+[ext_resource type="Environment" uid="uid://dfbyldj72bor4" path="res://addons/Animated_ocean/Swiggly_to _Ocean/Under_water_cam.tres" id="4_bwgqs"]
+[ext_resource type="Material" uid="uid://ciymu1cefhvtj" path="res://addons/Animated_ocean/Ocean_mats/base_color.tres" id="5_ihpsq"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fj7yv"]
+size = Vector2(551, 551)
+subdivide_width = 882
+subdivide_depth = 882
+
+[node name="Ocean" type="MeshInstance3D" unique_id=1346548698]
+mesh = SubResource("PlaneMesh_fj7yv")
+surface_material_override/0 = ExtResource("1_nb2vx")
+script = ExtResource("2_bwgqs")
+count = 6421.190000000277
+disp_string = "res://addons/Animated_ocean/cache_ocean/disp_6421.exr"
+material = ExtResource("1_nb2vx")
+material2 = ExtResource("3_ihpsq")
+envi2 = ExtResource("4_bwgqs")
+unique_plane_cover_material = ExtResource("5_ihpsq")
+scale_to_scale_v2 = Vector2(1, 1)
+camera_3D = "<Object#null>"
