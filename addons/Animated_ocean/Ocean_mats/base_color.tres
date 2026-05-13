@@ -1,0 +1,9 @@
+[gd_resource type="ORMMaterial3D" format=3 uid="uid://ciymu1cefhvtj"]
+
+[ext_resource type="Texture2D" uid="uid://b4nolkens4bxd" path="res://addons/Animated_ocean/Ocean_mats/animated_water.jpg" id="1_rmcr6"]
+
+[resource]
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+albedo_texture = ExtResource("1_rmcr6")
