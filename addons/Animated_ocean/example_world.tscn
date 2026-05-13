@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://l2d2o5pvcbqj"]
+
+[ext_resource type="PackedScene" uid="uid://dwq85pdikpxps" path="res://addons/Animated_ocean/Animated_ocean_license and scripts/ocean.tscn" id="1_d5jwm"]
+[ext_resource type="Texture2D" uid="uid://b4nolkens4bxd" path="res://addons/Animated_ocean/Ocean_mats/animated_water.jpg" id="2_dfs7r"]
+[ext_resource type="Material" uid="uid://dfedlxd0pft33" path="res://addons/Animated_ocean/Ocean_mats/Disp_ocean.tres" id="3_emtrr"]
+
+[sub_resource type="Shader" id="Shader_8n7ix"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.6.2.stable's ORMMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_toon, specular_disabled, unshaded;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+
+uniform sampler2D texture_albedo2 : source_color, filter_linear_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+uniform sampler2D texture_orm : hint_roughness_g, filter_linear_mipmap, repeat_enable;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV * vec2(4,2);
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv * vec2(4,4) );
+	vec4 albedo_tex2 = texture(texture_albedo, base_uv* vec2(5,5)+ TIME*.01);
+	ALBEDO = (albedo_tex.rgb +albedo_tex2.rgb) * albedo.rgb ;
+
+	vec4 orm_tex = texture(texture_orm, base_uv);
+	ROUGHNESS = orm_tex.g;
+ 	METALLIC = orm_tex.b;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rqb6d"]
+render_priority = 0
+shader = SubResource("Shader_8n7ix")
+shader_parameter/albedo = Color(0.3551366, 0.59375525, 0.73040956, 1)
+shader_parameter/texture_albedo = ExtResource("2_dfs7r")
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/uv1_scale = Vector3(3, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_emtrr"]
+size = Vector2(551, 551)
+subdivide_width = 882
+subdivide_depth = 882
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ofik3"]
+size = Vector2(551, 511)
+subdivide_width = 2
+subdivide_depth = 2
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8n7ix"]
+
+[sub_resource type="Sky" id="Sky_rqb6d"]
+sky_material = SubResource("ProceduralSkyMaterial_8n7ix")
+
+[sub_resource type="Environment" id="Environment_jiyju"]
+background_mode = 2
+sky = SubResource("Sky_rqb6d")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dfs7r"]
+
+[node name="example_world" type="Node3D" unique_id=466514209]
+
+[node name="Ocean" parent="." unique_id=1346548698 instance=ExtResource("1_d5jwm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.71674347, 0, 0.18066406)
+count = 6541.790000000333
+disp_string = "res://addons/Animated_ocean/cache_ocean/disp_6541.exr"
+children = 2
+unique_plane_cover_material = SubResource("ShaderMaterial_rqb6d")
+first_childs_child = 1
+scale_to_scale_v2 = Vector2(3, 1.2)
+root = "example_world:<Node3D#466784931170667>"
+camera_3D = "Camera3D:<Camera3D#2907994924652>"
+
+[node name="Ocean_vertex_child" type="MeshInstance3D" parent="Ocean" unique_id=416594614]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 550, 0, 0)
+top_level = true
+mesh = SubResource("PlaneMesh_emtrr")
+surface_material_override/0 = ExtResource("3_emtrr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ocean/Ocean_vertex_child" unique_id=1364048842]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 1.2, -551, -10, 0)
+mesh = SubResource("PlaneMesh_ofik3")
+surface_material_override/0 = SubResource("ShaderMaterial_rqb6d")
+
+[node name="Ocean_vertex_child2" type="MeshInstance3D" parent="Ocean" unique_id=416271396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -550, 0, 0)
+top_level = true
+mesh = SubResource("PlaneMesh_emtrr")
+surface_material_override/0 = ExtResource("3_emtrr")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2026549940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82.74921, 5.788704, 246.8841)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=943186730]
+transform = Transform3D(1, 0, 0, 0, 0.071706295, 0.99742573, 0, -0.99742573, 0.071706295, 0, 62, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=150954770]
+environment = SubResource("Environment_jiyju")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=242775925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.04419, 2.8670068, 240.48189)
+mesh = SubResource("CapsuleMesh_dfs7r")
